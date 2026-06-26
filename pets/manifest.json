@@ -2,6 +2,26 @@
   "publishedAt": "2026-06-26",
   "pets": [
     {
+      "id": "kogure-chibi",
+      "displayName": "Kogure Chibi",
+      "description": "Kogure Chibi, a mischievous blue-uniform chibi soccer strategist with sharp ears, amber eyes, and acrobatic Senpuujin energy.",
+      "petJson": "pets/kogure-chibi/pet.json",
+      "spritesheet": "pets/kogure-chibi/spritesheet.webp",
+      "preview": "pets/kogure-chibi/preview.gif",
+      "download": "downloads/kogure-chibi.zip",
+      "validated": true
+    },
+    {
+      "id": "zuko-chibi",
+      "displayName": "Zuko Chibi",
+      "description": "Zuko Chibi, a compact Rush chibi Codex pet based on Zuko, with serious martial firebending poses and attached sprite-safe fire.",
+      "petJson": "pets/zuko-chibi/pet.json",
+      "spritesheet": "pets/zuko-chibi/spritesheet.webp",
+      "preview": "pets/zuko-chibi/preview.gif",
+      "download": "downloads/zuko-chibi.zip",
+      "validated": true
+    },
+    {
       "id": "rainbow-hope",
       "displayName": "Rainbow Hope",
       "description": "A bright Rainbow Hope chibi companion pet for Codex.",

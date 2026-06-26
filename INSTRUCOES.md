@@ -32,6 +32,8 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\pets" | Out-N
 Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\natsu-chibi.zip" -DestinationPath "$env:USERPROFILE\.codex\pets" -Force
 ```
 
+Para os outros pets, use o mesmo comando trocando o nome do arquivo por `kogure-chibi.zip` ou `zuko-chibi.zip`.
+
 Ao final, a estrutura deve ficar assim:
 
 ```text

@@ -6,6 +6,8 @@ Repositorio publico dos pets to-RusH para baixar e instalar individualmente no C
 
 | Pet | Preview | Download individual | Arquivos |
 | --- | --- | --- | --- |
+| Kogure Chibi | ![Kogure Chibi](pets/kogure-chibi/preview.gif) | [kogure-chibi.zip](downloads/kogure-chibi.zip) | [pasta](pets/kogure-chibi/) |
+| Zuko Chibi | ![Zuko Chibi](pets/zuko-chibi/preview.gif) | [zuko-chibi.zip](downloads/zuko-chibi.zip) | [pasta](pets/zuko-chibi/) |
 | Rainbow Hope | ![Rainbow Hope](pets/rainbow-hope/preview.gif) | [rainbow-hope.zip](downloads/rainbow-hope.zip) | [pasta](pets/rainbow-hope/) |
 | Natsu Chibi | ![Natsu Chibi](pets/natsu-chibi/preview.gif) | [natsu-chibi.zip](downloads/natsu-chibi.zip) | [pasta](pets/natsu-chibi/) |
 
