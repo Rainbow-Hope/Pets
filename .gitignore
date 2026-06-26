@@ -1,0 +1,10 @@
+# Local work folders. Public releases live in /pets and /downloads.
+/01-Desorganizado/
+/0C-Criando/
+/0P-Pets-Publicado/
+
+# OS/editor noise.
+.DS_Store
+Thumbs.db
+*.tmp
+/.package-tmp/

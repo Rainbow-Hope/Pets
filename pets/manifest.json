@@ -1,0 +1,25 @@
+{
+  "publishedAt": "2026-06-26",
+  "pets": [
+    {
+      "id": "rainbow-hope",
+      "displayName": "Rainbow Hope",
+      "description": "A bright Rainbow Hope chibi companion pet for Codex.",
+      "petJson": "pets/rainbow-hope/pet.json",
+      "spritesheet": "pets/rainbow-hope/spritesheet.webp",
+      "preview": "pets/rainbow-hope/preview.gif",
+      "download": "downloads/rainbow-hope.zip",
+      "validated": true
+    },
+    {
+      "id": "natsu-chibi",
+      "displayName": "Natsu Chibi",
+      "description": "Natsu Chibi, an excited Rush-style chibi fire mage pet with compact fire effects and Happy companion support in selected states.",
+      "petJson": "pets/natsu-chibi/pet.json",
+      "spritesheet": "pets/natsu-chibi/spritesheet.webp",
+      "preview": "pets/natsu-chibi/preview.gif",
+      "download": "downloads/natsu-chibi.zip",
+      "validated": true
+    }
+  ]
+}
