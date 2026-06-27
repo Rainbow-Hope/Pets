@@ -1,5 +1,5 @@
 {
-  "publishedAt": "2026-06-26",
+  "publishedAt": "2026-06-27",
   "pets": [
     {
       "id": "kogure-chibi",
@@ -19,6 +19,26 @@
       "spritesheet": "pets/zuko-chibi/spritesheet.webp",
       "preview": "pets/zuko-chibi/preview.gif",
       "download": "downloads/zuko-chibi.zip",
+      "validated": true
+    },
+    {
+      "id": "kogure-zuko",
+      "displayName": "Kogure-Zuko",
+      "description": "Kogure-Zuko, a palette-swapped Zuko chibi pet with Kogure-inspired indigo hair, blue clothing, amber accents, and monochrome fire.",
+      "petJson": "pets/fusões/kogure-zuko/pet.json",
+      "spritesheet": "pets/fusões/kogure-zuko/spritesheet.webp",
+      "preview": "pets/fusões/kogure-zuko/preview.gif",
+      "download": "downloads/fusões/kogure-zuko.zip",
+      "validated": true
+    },
+    {
+      "id": "zuko-kogure",
+      "displayName": "Zuko-Kogure",
+      "description": "Zuko-Kogure, a palette-swapped Kogure chibi pet with Zuko-inspired dark hair, Fire Nation reds, bronze accents, and a red-black soccer ball.",
+      "petJson": "pets/fusões/zuko-kogure/pet.json",
+      "spritesheet": "pets/fusões/zuko-kogure/spritesheet.webp",
+      "preview": "pets/fusões/zuko-kogure/preview.gif",
+      "download": "downloads/fusões/zuko-kogure.zip",
       "validated": true
     },
     {

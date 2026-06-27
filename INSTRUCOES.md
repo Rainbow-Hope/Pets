@@ -11,8 +11,9 @@ Esses dois arquivos precisam ficar juntos dentro de uma pasta propria em `.codex
 
 1. Abra o repositorio no GitHub.
 2. Entre na pasta `downloads`.
-3. Clique no `.zip` do pet que voce quer baixar, por exemplo `rainbow-hope.zip`.
-4. Clique em `Download raw` para baixar o arquivo.
+3. Para os pets de fusao, entre tambem na subpasta `fusões`.
+4. Clique no `.zip` do pet que voce quer baixar, por exemplo `rainbow-hope.zip`.
+5. Clique em `Download raw` para baixar o arquivo.
 
 ## Instalar no Windows
 
@@ -32,7 +33,7 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\pets" | Out-N
 Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\natsu-chibi.zip" -DestinationPath "$env:USERPROFILE\.codex\pets" -Force
 ```
 
-Para os outros pets, use o mesmo comando trocando o nome do arquivo por `kogure-chibi.zip` ou `zuko-chibi.zip`.
+Para os outros pets, use o mesmo comando trocando o nome do arquivo por `kogure-chibi.zip`, `zuko-chibi.zip`, `kogure-zuko.zip` ou `zuko-kogure.zip`.
 
 Ao final, a estrutura deve ficar assim:
 
