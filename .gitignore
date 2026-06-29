@@ -5,6 +5,8 @@
 
 # OS/editor noise.
 .DS_Store
+/desktop-pets/target/
+/dist/
 Thumbs.db
 *.tmp
 /.package-tmp/
