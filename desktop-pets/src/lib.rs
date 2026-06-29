@@ -2,4 +2,5 @@
 
 pub mod behavior;
 pub mod config;
+pub mod library;
 pub mod pet;
