@@ -4,6 +4,7 @@ pub mod metrics;
 mod app;
 
 use crate::config::MovementMode;
+use crate::edition::Edition;
 use std::path::Path;
 
 pub const FRAME_INTERVAL_MS: u32 = 100;
@@ -32,8 +33,8 @@ pub fn directory_scope_id(path: &Path) -> String {
 }
 
 #[cfg(windows)]
-pub fn run() -> Result<(), String> {
-    app::run()
+pub fn run(edition: Edition) -> Result<(), String> {
+    app::run(edition)
 }
 
 #[cfg(windows)]
@@ -56,6 +57,6 @@ pub fn show_blocking_error(message: &str) {
 }
 
 #[cfg(not(windows))]
-pub fn run() -> Result<(), String> {
+pub fn run(_edition: Edition) -> Result<(), String> {
     Err("DesktopPets is available only on Windows 10/11".to_owned())
 }

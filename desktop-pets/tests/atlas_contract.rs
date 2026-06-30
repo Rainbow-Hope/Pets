@@ -39,8 +39,10 @@ fn rainbow_hope_manifest_and_atlas_load_from_repository_assets() {
     assert_eq!(manifest.display_name, "Rainbow Hope");
     for state in PetState::ALL {
         assert_eq!(atlas.frames(state).len(), state.frame_count());
-        assert_eq!(atlas.frame(state, state.frame_count()).width, CELL_WIDTH);
-        assert_eq!(atlas.frame(state, state.frame_count()).height, CELL_HEIGHT);
+        let frame = atlas.frame(state, state.frame_count());
+        assert_eq!(frame.width, CELL_WIDTH);
+        assert_eq!(frame.height, CELL_HEIGHT);
+        assert_eq!(frame.alpha_at(0, 0), frame.premultiplied_bgra[3]);
     }
 }
 

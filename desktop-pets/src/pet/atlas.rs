@@ -65,7 +65,16 @@ pub struct Frame {
     pub width: u32,
     pub height: u32,
     pub premultiplied_bgra: Vec<u8>,
-    pub alpha: Vec<u8>,
+}
+
+impl Frame {
+    pub fn alpha_at(&self, x: u32, y: u32) -> u8 {
+        if x >= self.width || y >= self.height {
+            return 0;
+        }
+        let index = ((y * self.width + x) * 4 + 3) as usize;
+        self.premultiplied_bgra.get(index).copied().unwrap_or(0)
+    }
 }
 
 #[derive(Debug)]
@@ -99,7 +108,6 @@ impl Atlas {
                     )
                     .to_image();
                 let mut bgra = Vec::with_capacity((CELL_WIDTH * CELL_HEIGHT * 4) as usize);
-                let mut alpha = Vec::with_capacity((CELL_WIDTH * CELL_HEIGHT) as usize);
                 for pixel in view.pixels() {
                     let [red, green, blue, opacity] = pixel.0;
                     let premultiply =
@@ -110,13 +118,11 @@ impl Atlas {
                         premultiply(red),
                         opacity,
                     ]);
-                    alpha.push(opacity);
                 }
                 rows[row].push(Arc::new(Frame {
                     width: CELL_WIDTH,
                     height: CELL_HEIGHT,
                     premultiplied_bgra: bgra,
-                    alpha,
                 }));
             }
         }

@@ -1,11 +1,12 @@
 use super::metrics::SystemMetrics;
-use super::{FRAME_INTERVAL_MS, command_to_movement, directory_scope_id};
+use super::{command_to_movement, directory_scope_id};
 use crate::behavior::mood::{MoodEngine, SAMPLE_INTERVAL_MS};
 use crate::behavior::movement::{Motion, MovementPlanner, Rect as WorkRect, Size};
 use crate::config::{
     AppConfig, LoadOutcome, MovementMode, Point as SavedPoint, SavedInstance, StartupPolicy,
     load_or_recover, save_atomic,
 };
+use crate::edition::{Edition, EditionProfile};
 use crate::library::{PetLibrary, ReplacePolicy};
 use crate::pet::{Atlas, Frame, PetState};
 use std::cell::RefCell;
@@ -38,11 +39,11 @@ use windows_sys::Win32::UI::WindowsAndMessaging::{
     GetCursorPos, GetMessageW, GetWindowLongPtrW, GetWindowRect, HMENU, HTCAPTION, HTCLIENT,
     HTTRANSPARENT, HWND_TOPMOST, IDC_ARROW, KillTimer, LoadCursorW, MB_ICONERROR, MB_OK,
     MF_CHECKED, MF_POPUP, MF_SEPARATOR, MF_STRING, MSG, MessageBoxW, PostMessageW, PostQuitMessage,
-    RegisterClassW, SWP_NOACTIVATE, SendMessageW, SetTimer, SetWindowLongPtrW, SetWindowPos,
-    ShowWindow, TPM_RETURNCMD, TPM_RIGHTBUTTON, TrackPopupMenu, TranslateMessage, ULW_ALPHA,
-    WM_APP, WM_CLOSE, WM_DESTROY, WM_DISPLAYCHANGE, WM_EXITSIZEMOVE, WM_LBUTTONDOWN, WM_NCCREATE,
-    WM_NCDESTROY, WM_NCHITTEST, WM_RBUTTONUP, WM_TIMER, WNDCLASSW, WS_EX_LAYERED, WS_EX_TOOLWINDOW,
-    WS_EX_TOPMOST, WS_POPUP,
+    RegisterClassW, SWP_NOACTIVATE, SendMessageW, SetForegroundWindow, SetTimer, SetWindowLongPtrW,
+    SetWindowPos, ShowWindow, TPM_RETURNCMD, TPM_RIGHTBUTTON, TrackPopupMenu, TranslateMessage,
+    ULW_ALPHA, WM_APP, WM_CLOSE, WM_DESTROY, WM_DISPLAYCHANGE, WM_EXITSIZEMOVE, WM_LBUTTONDOWN,
+    WM_NCCREATE, WM_NCDESTROY, WM_NCHITTEST, WM_RBUTTONUP, WM_TIMER, WNDCLASSW, WS_EX_LAYERED,
+    WS_EX_TOOLWINDOW, WS_EX_TOPMOST, WS_POPUP,
 };
 
 const WM_APP_SPAWN: u32 = WM_APP + 1;
@@ -71,6 +72,7 @@ struct AppContext {
     library: PetLibrary,
     windows: Vec<HWND>,
     class_name: Vec<u16>,
+    profile: EditionProfile,
 }
 
 struct ActiveMotion {
@@ -101,14 +103,19 @@ struct PetWindow {
     motion: Option<ActiveMotion>,
 }
 
-pub fn run() -> Result<(), String> {
+pub fn run(edition: Edition) -> Result<(), String> {
     let executable =
         std::env::current_exe().map_err(|error| format!("executable path: {error}"))?;
     let exe_dir = executable
         .parent()
         .ok_or_else(|| "the executable has no parent directory".to_owned())?
         .to_path_buf();
-    let scope = directory_scope_id(&exe_dir);
+    let profile = edition.profile();
+    let scope = format!(
+        "{}_{}",
+        directory_scope_id(&exe_dir),
+        profile.coordinator_suffix
+    );
     let class_name = wide(&format!("DesktopPets_{scope}"));
     let mutex_name = wide(&format!("Local\\DesktopPets_{scope}"));
 
@@ -132,13 +139,17 @@ pub fn run() -> Result<(), String> {
         }
     }
 
-    let result = run_coordinator(exe_dir, class_name);
+    let result = run_coordinator(exe_dir, class_name, profile);
     // SAFETY: mutex was returned by CreateMutexW and remains owned by this process.
     unsafe { CloseHandle(mutex) };
     result
 }
 
-fn run_coordinator(exe_dir: PathBuf, class_name: Vec<u16>) -> Result<(), String> {
+fn run_coordinator(
+    exe_dir: PathBuf,
+    class_name: Vec<u16>,
+    profile: EditionProfile,
+) -> Result<(), String> {
     register_window_class(&class_name)?;
     let config_path = exe_dir.join("config.json");
     let config = match load_or_recover(&config_path).map_err(|error| error.to_string())? {
@@ -175,6 +186,7 @@ fn run_coordinator(exe_dir: PathBuf, class_name: Vec<u16>) -> Result<(), String>
             library,
             windows: Vec::new(),
             class_name,
+            profile,
         });
     });
     spawn_initial_pets()?;
@@ -223,13 +235,20 @@ fn register_window_class(class_name: &[u16]) -> Result<(), String> {
 }
 
 fn spawn_initial_pets() -> Result<(), String> {
-    let instances = APP.with(|app| {
+    let mut instances = APP.with(|app| {
         let app = app.borrow();
         let context = app.as_ref().expect("app initialized");
-        if context.config.startup == StartupPolicy::All && !context.config.instances.is_empty() {
+        if context.profile.can_startup
+            && context.config.startup == StartupPolicy::All
+            && !context.config.instances.is_empty()
+        {
             return context.config.instances.clone();
         }
-        let selected = match context.config.startup {
+        let selected = match if context.profile.can_startup {
+            context.config.startup.clone()
+        } else {
+            StartupPolicy::None
+        } {
             StartupPolicy::Specific(id) => context
                 .config
                 .instances
@@ -246,6 +265,14 @@ fn spawn_initial_pets() -> Result<(), String> {
         };
         vec![selected.cloned().unwrap_or_default()]
     });
+    let maximum = APP.with(|app| {
+        app.borrow()
+            .as_ref()
+            .and_then(|context| context.profile.max_windows)
+    });
+    if let Some(maximum) = maximum {
+        instances.truncate(maximum);
+    }
     for instance in instances {
         create_window_for(instance)?;
     }
@@ -256,6 +283,23 @@ fn spawn_new_pet() -> Result<(), String> {
     let instance = APP.with(|app| {
         let mut app = app.borrow_mut();
         let context = app.as_mut().expect("app initialized");
+        if !context.profile.can_spawn {
+            return Err(format!(
+                "{} permite somente um pet.",
+                context.profile.display_name
+            ));
+        }
+        if context
+            .profile
+            .max_windows
+            .is_some_and(|limit| context.windows.len() >= limit)
+        {
+            return Err(format!(
+                "{} atingiu o limite de {} pets.",
+                context.profile.display_name,
+                context.profile.max_windows.unwrap_or(1)
+            ));
+        }
         let mut instance = SavedInstance::new("rainbow-hope");
         let offset = context.windows.len() as i32 * 32;
         instance.position = SavedPoint {
@@ -265,13 +309,13 @@ fn spawn_new_pet() -> Result<(), String> {
         context.config.last_active = Some(instance.id);
         context.config.instances.push(instance.clone());
         let _ = save_atomic(&context.config_path, &context.config);
-        instance
-    });
+        Ok(instance)
+    })?;
     create_window_for(instance)
 }
 
 fn create_window_for(mut instance: SavedInstance) -> Result<(), String> {
-    let (class_name, atlas, pet_id) = APP.with(|app| {
+    let (class_name, atlas, pet_id, profile) = APP.with(|app| {
         let app = app.borrow();
         let context = app.as_ref().expect("app initialized");
         let requested = context.library.root().join(&instance.pet_id);
@@ -288,7 +332,7 @@ fn create_window_for(mut instance: SavedInstance) -> Result<(), String> {
         let atlas = Atlas::load(&directory.join(manifest.spritesheet_path))
             .map(Arc::new)
             .map_err(|e| e.to_string())?;
-        Ok::<_, String>((context.class_name.clone(), atlas, pet_id))
+        Ok::<_, String>((context.class_name.clone(), atlas, pet_id, context.profile))
     })?;
     instance.pet_id.clone_from(&pet_id);
     let pixel_width = scale_dimension(crate::pet::CELL_WIDTH, instance.size_percent);
@@ -298,7 +342,11 @@ fn create_window_for(mut instance: SavedInstance) -> Result<(), String> {
         pet_id,
         atlas,
         size_percent: instance.size_percent,
-        movement: instance.movement,
+        movement: if profile.can_move {
+            instance.movement
+        } else {
+            MovementMode::Fixed
+        },
         semi_fixed: instance.semi_fixed,
         position: instance.position,
         mood: MoodEngine::with_seed(instance.id.as_u128() as u64),
@@ -347,7 +395,7 @@ fn create_window_for(mut instance: SavedInstance) -> Result<(), String> {
     // SAFETY: hwnd is a valid newly created top-level window.
     unsafe {
         ShowWindow(hwnd, 8);
-        SetTimer(hwnd, TIMER_ID, FRAME_INTERVAL_MS, None);
+        SetTimer(hwnd, TIMER_ID, profile.frame_interval_ms, None);
     }
     render(hwnd)?;
     Ok(())
@@ -369,8 +417,20 @@ unsafe extern "system" fn window_proc(
 
     match message {
         WM_APP_SPAWN => {
-            if let Err(error) = spawn_new_pet() {
-                show_error(hwnd, &error);
+            let can_spawn = APP.with(|app| {
+                app.borrow()
+                    .as_ref()
+                    .is_some_and(|context| context.profile.can_spawn)
+            });
+            if can_spawn {
+                if let Err(error) = spawn_new_pet() {
+                    show_error(hwnd, &error);
+                }
+            } else {
+                unsafe {
+                    ShowWindow(hwnd, 8);
+                    SetForegroundWindow(hwnd);
+                }
             }
             0
         }
@@ -465,7 +525,12 @@ unsafe extern "system" fn window_proc(
 
 fn tick(hwnd: HWND, pet: &mut PetWindow) -> Result<(), String> {
     let now_ms = pet.started.elapsed().as_millis() as u64;
-    if now_ms.saturating_sub(pet.last_metric_ms) >= SAMPLE_INTERVAL_MS {
+    let metric_interval = APP.with(|app| {
+        app.borrow().as_ref().map_or(SAMPLE_INTERVAL_MS, |context| {
+            context.profile.metric_interval_ms
+        })
+    });
+    if now_ms.saturating_sub(pet.last_metric_ms) >= metric_interval {
         let sample = pet.metrics.sample().ok_or(());
         pet.animation = pet.mood.update(now_ms, sample).animation;
         pet.last_metric_ms = now_ms;
@@ -506,7 +571,15 @@ fn update_motion(hwnd: HWND, pet: &mut PetWindow, now_ms: u64) {
         }
         return;
     }
-    if pet.movement == MovementMode::Fixed || now_ms.saturating_sub(pet.last_motion_ms) < 3_000 {
+    let can_move = APP.with(|app| {
+        app.borrow()
+            .as_ref()
+            .is_some_and(|context| context.profile.can_move)
+    });
+    if !can_move
+        || pet.movement == MovementMode::Fixed
+        || now_ms.saturating_sub(pet.last_motion_ms) < 3_000
+    {
         return;
     }
     if pet.movement == MovementMode::SemiFixed {
@@ -635,18 +708,20 @@ fn scale_frame(frame: &Frame, width: u32, height: u32) -> (Vec<u8>, Vec<u8>) {
             let destination = (y * width + x) as usize;
             pixels[destination * 4..destination * 4 + 4]
                 .copy_from_slice(&frame.premultiplied_bgra[source * 4..source * 4 + 4]);
-            alpha[destination] = frame.alpha[source];
+            alpha[destination] = frame.alpha_at(source_x, source_y);
         }
     }
     (pixels, alpha)
 }
 
 fn show_context_menu(hwnd: HWND, pet: &mut PetWindow) {
-    let pets = APP.with(|app| {
-        app.borrow()
-            .as_ref()
-            .and_then(|context| context.library.discover().ok())
-            .unwrap_or_default()
+    let (pets, profile) = APP.with(|app| {
+        let app = app.borrow();
+        let context = app.as_ref().expect("app initialized");
+        (
+            context.library.discover().unwrap_or_default(),
+            context.profile,
+        )
     });
     // SAFETY: popup menus are owned and destroyed in this function.
     unsafe {
@@ -661,8 +736,12 @@ fn show_context_menu(hwnd: HWND, pet: &mut PetWindow) {
             );
         }
         AppendMenuW(root, MF_POPUP, pet_menu as usize, wide("Pet").as_ptr());
-        append_item(root, COMMAND_ADD_PET, "Adicionar pet ZIP...", false);
-        append_item(root, COMMAND_NEW_PET, "Novo pet", false);
+        if profile.can_import {
+            append_item(root, COMMAND_ADD_PET, "Adicionar pet ZIP...", false);
+        }
+        if profile.can_spawn {
+            append_item(root, COMMAND_NEW_PET, "Novo pet", false);
+        }
 
         let size_menu = CreatePopupMenu();
         for (index, size) in SIZE_PRESETS.iter().enumerate() {
@@ -675,85 +754,91 @@ fn show_context_menu(hwnd: HWND, pet: &mut PetWindow) {
         }
         AppendMenuW(root, MF_POPUP, size_menu as usize, wide("Tamanho").as_ptr());
 
-        let movement_menu = CreatePopupMenu();
-        let movement_names = [
-            "Fixo",
-            "Faixa inferior",
-            "Linha",
-            "Tela inteira",
-            "Entre monitores",
-            "Semi-fixo A/B",
-        ];
-        for (index, name) in movement_names.iter().enumerate() {
-            let mode = command_to_movement(200 + index as u32).unwrap_or(MovementMode::Fixed);
+        if profile.can_move {
+            let movement_menu = CreatePopupMenu();
+            let movement_names = [
+                "Fixo",
+                "Faixa inferior",
+                "Linha",
+                "Tela inteira",
+                "Entre monitores",
+                "Semi-fixo A/B",
+            ];
+            for (index, name) in movement_names.iter().enumerate() {
+                let mode = command_to_movement(200 + index as u32).unwrap_or(MovementMode::Fixed);
+                append_item(
+                    movement_menu,
+                    200 + index as u32,
+                    name,
+                    pet.movement == mode,
+                );
+            }
+            AppendMenuW(movement_menu, MF_SEPARATOR, 0, null());
             append_item(
                 movement_menu,
-                200 + index as u32,
-                name,
-                pet.movement == mode,
+                COMMAND_SET_POINT_A,
+                "Definir ponto A aqui",
+                false,
+            );
+            append_item(
+                movement_menu,
+                COMMAND_SET_POINT_B,
+                "Definir ponto B aqui",
+                false,
+            );
+            AppendMenuW(
+                root,
+                MF_POPUP,
+                movement_menu as usize,
+                wide("Movimento").as_ptr(),
             );
         }
-        AppendMenuW(movement_menu, MF_SEPARATOR, 0, null());
-        append_item(
-            movement_menu,
-            COMMAND_SET_POINT_A,
-            "Definir ponto A aqui",
-            false,
-        );
-        append_item(
-            movement_menu,
-            COMMAND_SET_POINT_B,
-            "Definir ponto B aqui",
-            false,
-        );
-        AppendMenuW(
-            root,
-            MF_POPUP,
-            movement_menu as usize,
-            wide("Movimento").as_ptr(),
-        );
 
-        let startup_menu = CreatePopupMenu();
-        let startup = APP.with(|app| {
-            app.borrow()
-                .as_ref()
-                .map(|context| context.config.startup.clone())
-                .unwrap_or_default()
-        });
-        append_item(
-            startup_menu,
-            COMMAND_STARTUP_NONE,
-            "Não restaurar",
-            startup == StartupPolicy::None,
-        );
-        append_item(
-            startup_menu,
-            COMMAND_STARTUP_LAST,
-            "Último ativo",
-            startup == StartupPolicy::Last,
-        );
-        append_item(
-            startup_menu,
-            COMMAND_STARTUP_THIS,
-            "Este pet",
-            startup == StartupPolicy::Specific(pet.instance_id),
-        );
-        append_item(
-            startup_menu,
-            COMMAND_STARTUP_ALL,
-            "Todos",
-            startup == StartupPolicy::All,
-        );
-        AppendMenuW(
-            root,
-            MF_POPUP,
-            startup_menu as usize,
-            wide("Ao iniciar").as_ptr(),
-        );
+        if profile.can_startup {
+            let startup_menu = CreatePopupMenu();
+            let startup = APP.with(|app| {
+                app.borrow()
+                    .as_ref()
+                    .map(|context| context.config.startup.clone())
+                    .unwrap_or_default()
+            });
+            append_item(
+                startup_menu,
+                COMMAND_STARTUP_NONE,
+                "Não restaurar",
+                startup == StartupPolicy::None,
+            );
+            append_item(
+                startup_menu,
+                COMMAND_STARTUP_LAST,
+                "Último ativo",
+                startup == StartupPolicy::Last,
+            );
+            append_item(
+                startup_menu,
+                COMMAND_STARTUP_THIS,
+                "Este pet",
+                startup == StartupPolicy::Specific(pet.instance_id),
+            );
+            append_item(
+                startup_menu,
+                COMMAND_STARTUP_ALL,
+                "Todos",
+                startup == StartupPolicy::All,
+            );
+            AppendMenuW(
+                root,
+                MF_POPUP,
+                startup_menu as usize,
+                wide("Ao iniciar").as_ptr(),
+            );
+        }
 
         AppendMenuW(root, MF_SEPARATOR, 0, null());
         append_item(root, COMMAND_CLOSE, "Fechar este pet", false);
-        append_item(root, COMMAND_CLOSE_ALL, "Fechar todos", false);
+        if profile.can_close_all {
+            append_item(root, COMMAND_CLOSE_ALL, "Fechar todos", false);
+        }
 
         let mut cursor = POINT::default();
         GetCursorPos(&mut cursor);

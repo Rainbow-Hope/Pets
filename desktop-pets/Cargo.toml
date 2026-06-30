@@ -13,6 +13,18 @@ path = "src/lib.rs"
 name = "DesktopPets"
 path = "src/main.rs"
 
+[[bin]]
+name = "DesktopPetsMicro"
+path = "src/bin/micro.rs"
+
+[[bin]]
+name = "DesktopPetsNano"
+path = "src/bin/nano.rs"
+
+[[bin]]
+name = "DesktopPetsPico"
+path = "src/bin/pico.rs"
+
 [dependencies]
 image = { version = "0.25.10", default-features = false, features = ["webp"] }
 serde = { version = "1.0.228", features = ["derive"] }
