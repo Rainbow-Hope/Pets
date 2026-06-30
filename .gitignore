@@ -10,3 +10,7 @@
 Thumbs.db
 *.tmp
 /.package-tmp/
+
+# Python caches.
+__pycache__/
+*.py[cod]
