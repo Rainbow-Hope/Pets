@@ -42,6 +42,23 @@ class EntrypointTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn("usage:", result.stderr.lower())
 
+    def test_pyinstaller_wrapper_runs_self_test(self) -> None:
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(self.installer_root / "run_installer.py"),
+                "--self-test",
+            ],
+            cwd=self.installer_root,
+            env=self.environment,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("SELF_TEST_OK", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
