@@ -1,5 +1,5 @@
 {
-  "publishedAt": "2026-06-27",
+  "publishedAt": "2026-06-30",
   "pets": [
     {
       "id": "kogure-chibi",
@@ -44,7 +44,7 @@
     {
       "id": "rainbow-hope",
       "displayName": "Rainbow Hope",
-      "description": "A bright Rainbow Hope chibi companion pet for Codex.",
+      "description": "Rainbow Hope, a faithful chibi cartoon pet based on the provided avatar.",
       "petJson": "pets/rainbow-hope/pet.json",
       "spritesheet": "pets/rainbow-hope/spritesheet.webp",
       "preview": "pets/rainbow-hope/preview.gif",
@@ -59,6 +59,96 @@
       "spritesheet": "pets/natsu-chibi/spritesheet.webp",
       "preview": "pets/natsu-chibi/preview.gif",
       "download": "downloads/natsu-chibi.zip",
+      "validated": true
+    },
+    {
+      "id": "arco-iris-2-0",
+      "displayName": "Arco-Íris 2.0",
+      "description": "Um pet chibi alegre inspirado em Arco-Íris 2.0, com guarda-chuva e energia acolhedora.",
+      "petJson": "pets/arco-iris-2-0/pet.json",
+      "spritesheet": "pets/arco-iris-2-0/spritesheet.webp",
+      "preview": "pets/arco-iris-2-0/preview.gif",
+      "download": "downloads/arco-iris-2-0.zip",
+      "validated": true
+    },
+    {
+      "id": "pokemon-ranger-guardian-signs",
+      "displayName": "Pokemon Ranger & Ukulele Pichu",
+      "description": "Ben and Ukulele Pichu bring the capture adventures of Oblivia to Codex.",
+      "petJson": "pets/pokemon-ranger-guardian-signs/pet.json",
+      "spritesheet": "pets/pokemon-ranger-guardian-signs/spritesheet.webp",
+      "preview": "pets/pokemon-ranger-guardian-signs/preview.gif",
+      "download": "downloads/pokemon-ranger-guardian-signs.zip",
+      "validated": true
+    },
+    {
+      "id": "steven-filme",
+      "displayName": "Steven Filme",
+      "description": "Steven Universe in his movie-era outfit, a brave warm chibi pet with his rose shield.",
+      "petJson": "pets/steven-filme/pet.json",
+      "spritesheet": "pets/steven-filme/spritesheet.webp",
+      "preview": "pets/steven-filme/preview.gif",
+      "download": "downloads/steven-filme.zip",
+      "validated": true
+    },
+    {
+      "id": "natsu-ranger",
+      "displayName": "Natsu Ranger",
+      "description": "Natsu Ranger, a palette-swapped Pokemon Ranger pet with Natsu-inspired colors and a Happy-colored Ukulele Pichu companion.",
+      "petJson": "pets/fusões/natsu-ranger/pet.json",
+      "spritesheet": "pets/fusões/natsu-ranger/spritesheet.webp",
+      "preview": "pets/fusões/natsu-ranger/preview.gif",
+      "download": "downloads/fusões/natsu-ranger.zip",
+      "validated": true
+    },
+    {
+      "id": "ranger-natsu",
+      "displayName": "Ranger Natsu",
+      "description": "Ranger Natsu, a palette-swapped Natsu chibi pet with Pokemon Ranger colors and a Pichu-colored Happy companion.",
+      "petJson": "pets/fusões/ranger-natsu/pet.json",
+      "spritesheet": "pets/fusões/ranger-natsu/spritesheet.webp",
+      "preview": "pets/fusões/ranger-natsu/preview.gif",
+      "download": "downloads/fusões/ranger-natsu.zip",
+      "validated": true
+    },
+    {
+      "id": "obsidiana",
+      "displayName": "Obsidiana",
+      "description": "Um pet chibi imponente inspirado em Obsidiana, com oito braços e força vulcânica concentrada.",
+      "petJson": "pets/fusões/obsidiana/pet.json",
+      "spritesheet": "pets/fusões/obsidiana/spritesheet.webp",
+      "preview": "pets/fusões/obsidiana/preview.gif",
+      "download": "downloads/fusões/obsidiana.zip",
+      "validated": true
+    },
+    {
+      "id": "pedra-do-sol",
+      "displayName": "Pedra do Sol",
+      "description": "Pet chibi de Pedra do Sol, uma fusão solar musculosa, confiante e vibrante.",
+      "petJson": "pets/fusões/pedra-do-sol/pet.json",
+      "spritesheet": "pets/fusões/pedra-do-sol/spritesheet.webp",
+      "preview": "pets/fusões/pedra-do-sol/preview.gif",
+      "download": "downloads/fusões/pedra-do-sol.zip",
+      "validated": true
+    },
+    {
+      "id": "quartzo-fume",
+      "displayName": "Quartzo Fumê",
+      "description": "Pet chibi de Quartzo Fumê, uma fusão brincalhona de três braços e cabelo volumoso.",
+      "petJson": "pets/fusões/quartzo-fume/pet.json",
+      "spritesheet": "pets/fusões/quartzo-fume/spritesheet.webp",
+      "preview": "pets/fusões/quartzo-fume/preview.gif",
+      "download": "downloads/fusões/quartzo-fume.zip",
+      "validated": true
+    },
+    {
+      "id": "sardonyx",
+      "displayName": "Sardonyx",
+      "description": "Sardonyx, a confident four-armed and four-eyed chibi fusion pet with her signature war hammer.",
+      "petJson": "pets/fusões/sardonyx/pet.json",
+      "spritesheet": "pets/fusões/sardonyx/spritesheet.webp",
+      "preview": "pets/fusões/sardonyx/preview.gif",
+      "download": "downloads/fusões/sardonyx.zip",
       "validated": true
     }
   ]
