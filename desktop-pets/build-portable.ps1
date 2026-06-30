@@ -152,7 +152,10 @@ foreach ($Package in $Packages) {
 
 if (-not $SkipChecks) {
     Invoke-Cargo fmt --manifest-path $Manifest --check
-    Invoke-Cargo clippy --manifest-path $Manifest --all-targets -- -D warnings
+    & $Cargo clippy --manifest-path $Manifest --all-targets -- -D warnings
+    if ($LASTEXITCODE -ne 0) {
+        throw "Clippy falhou com código $LASTEXITCODE."
+    }
     Invoke-Cargo test --manifest-path $Manifest
 }
 

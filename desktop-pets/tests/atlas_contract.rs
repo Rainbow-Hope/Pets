@@ -1,6 +1,6 @@
 use desktop_pets::pet::{
-    ATLAS_HEIGHT, ATLAS_WIDTH, Atlas, AtlasGeometry, CELL_HEIGHT, CELL_WIDTH, PetError, PetManifest,
-    PetState,
+    ATLAS_HEIGHT, ATLAS_WIDTH, Atlas, AtlasGeometry, CELL_HEIGHT, CELL_WIDTH, PetError,
+    PetManifest, PetState,
 };
 use std::path::Path;
 
@@ -37,7 +37,10 @@ fn light_editions_accept_only_approved_proportional_atlas_sizes() {
     ];
     for (width, height, cell_width, cell_height) in approved {
         let geometry = AtlasGeometry::from_dimensions(width, height).expect("approved geometry");
-        assert_eq!((geometry.cell_width, geometry.cell_height), (cell_width, cell_height));
+        assert_eq!(
+            (geometry.cell_width, geometry.cell_height),
+            (cell_width, cell_height)
+        );
     }
 
     assert!(AtlasGeometry::from_dimensions(1000, 1000).is_none());

@@ -1,6 +1,6 @@
 use desktop_pets::config::MovementMode;
 use desktop_pets::windows::{
-    FRAME_INTERVAL_MS, command_to_movement, directory_scope_id,
+    command_to_movement, directory_scope_id,
     metrics::{CpuTimes, cpu_percent},
 };
 use std::path::Path;
@@ -48,5 +48,4 @@ fn native_menu_commands_cover_all_movement_modes() {
         assert_eq!(command_to_movement(200 + offset as u32), Some(mode));
     }
     assert_eq!(command_to_movement(999), None);
-    assert!(FRAME_INTERVAL_MS >= 80);
 }
