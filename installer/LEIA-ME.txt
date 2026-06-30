@@ -1,0 +1,21 @@
+INSTALADOR PORTATIL DE PETS PARA O CODEX
+
+1. Execute Instalador-Pets.exe.
+2. Selecione o arquivo ZIP do pet baixado do repositorio Pets.
+3. Confira o nome e o destino exibidos.
+4. Clique em "Instalar pet".
+
+O programa instala em:
+%USERPROFILE%\.codex\pets
+
+REQUISITOS PARA USAR:
+- Windows 10 ou Windows 11
+- Codex instalado
+
+Python nao e necessario para executar este programa.
+
+O Windows SmartScreen pode exibir um aviso porque o executavel nao possui
+assinatura digital. Nesse caso, confirme a origem do arquivo antes de usar
+"Mais informacoes" e "Executar assim mesmo".
+
+Consulte INSTRUCOES-INSTALADOR.md no repositorio para detalhes.

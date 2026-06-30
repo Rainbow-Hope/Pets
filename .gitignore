@@ -10,3 +10,13 @@
 Thumbs.db
 *.tmp
 /.package-tmp/
+
+# Python caches.
+__pycache__/
+*.py[cod]
+
+# Portable installer build outputs.
+/installer/.venv-build/
+/installer/build/
+/installer/dist/
+/installer/release/
