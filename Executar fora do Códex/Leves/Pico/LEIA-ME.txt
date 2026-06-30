@@ -36,6 +36,21 @@ Normal e Micro importam pacotes ZIP pelo menu.
 Nano e Pico apenas listam pets compatíveis já existentes na pasta pets.
 Cada pet precisa de pet.json e spritesheet.webp no formato de atlas do Códex.
 
+AUXILIAR OPCIONAL — TODOS OS PETS
+
+AdicionarTodosOsPets.exe adiciona de uma vez os pets embutidos no programa e os
+pets válidos encontrados em .codex\pets, quando essa pasta existir. Ele é
+opcional, não é instalador e não precisa de internet.
+
+Normal já contém AdicionarTodosOsPets.exe na mesma pasta do DesktopPets.exe.
+Nas versões leves, use a pasta "Auxiliar opcional - Todos os Pets": copie
+AdicionarTodosOsPets.exe e LEIA-ME-AUXILIAR.txt para a mesma pasta de Micro,
+Nano ou Pico antes de executar.
+
+O auxiliar não modifica .codex\pets e não substitui pets que já existem na
+pasta pets da edição. Depois de adicionar os pets, você pode apagar
+AdicionarTodosOsPets.exe sem remover os pets importados.
+
 ARQUIVOS LOCAIS
 
 config.json guarda posição, tamanho, pet e preferências da própria edição.

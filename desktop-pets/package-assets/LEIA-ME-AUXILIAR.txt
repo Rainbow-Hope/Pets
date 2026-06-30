@@ -1,7 +1,43 @@
 AUXILIAR OPCIONAL — TODOS OS PETS
 
-AdicionarTodosOsPets.exe é um auxiliar opcional e portátil.
-Coloque-o na mesma pasta da edição Desktop Pets escolhida e execute.
+AdicionarTodosOsPets.exe é um auxiliar opcional e portátil. Ele não é
+instalador do Desktop Pets, não instala serviço, não altera o Registro do
+Windows, não usa internet e não precisa de administrador.
 
-Ele adiciona pets à pasta pets da edição atual.
-Não é instalador do Desktop Pets.
+COMO USAR
+
+1. Normal já contém AdicionarTodosOsPets.exe na própria pasta.
+2. Para Micro, Nano ou Pico, copie AdicionarTodosOsPets.exe e este
+   LEIA-ME-AUXILIAR.txt da pasta "Auxiliar opcional - Todos os Pets".
+3. Cole os dois arquivos na mesma pasta da edição escolhida, ao lado de:
+
+   DesktopPetsMicro.exe
+   ou DesktopPetsNano.exe
+   ou DesktopPetsPico.exe
+
+4. Execute AdicionarTodosOsPets.exe por duplo clique.
+5. Ao terminar, abra a edição escolhida e use o menu de escolha de pet.
+
+O auxiliar precisa ficar na mesma pasta do .exe da edição enquanto roda. Se ele
+for executado dentro da pasta "Auxiliar opcional - Todos os Pets", sem uma
+edição ao lado, ele recusa a operação.
+
+O QUE ELE ADICIONA
+
+O auxiliar copia para a pasta pets da edição atual:
+
+- todos os pets válidos que foram embutidos no próprio auxiliar no momento do
+  build;
+- pets válidos encontrados em .codex\pets no computador atual, quando essa
+  pasta existir.
+
+O QUE ELE NÃO FAZ
+
+- Não modifica .codex\pets.
+- Não substitui pets que já existem na pasta de destino.
+- Não altera o Códex.
+- Não baixa arquivos.
+- Não instala o Desktop Pets.
+
+Depois que os pets forem copiados, você pode apagar AdicionarTodosOsPets.exe da
+pasta da edição. Os pets importados continuam dentro da pasta pets.

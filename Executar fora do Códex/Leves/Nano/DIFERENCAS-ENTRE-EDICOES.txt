@@ -12,8 +12,9 @@ essencial e apresenta o menor consumo esperado.
 4. Nano
 5. Pico
 6. Diferenças recurso por recurso
-7. Medições
-8. Qual escolher
+7. Auxiliar opcional - Todos os Pets
+8. Medições
+9. Qual escolher
 
 COMPARAÇÃO RÁPIDA
 
@@ -72,9 +73,26 @@ Cada pacote traz somente seu executável, configuração, documentos e Rainbow
 Hope. Não há instalador, runtime separado ou download durante a primeira
 execução.
 
+O auxiliar AdicionarTodosOsPets.exe altera o armazenamento apenas quando é
+usado: ele copia pets adicionais para a pasta pets da edição escolhida. Normal
+já contém o auxiliar. Micro, Nano e Pico mantêm pacotes menores por padrão e
+recebem o auxiliar separadamente na pasta "Auxiliar opcional - Todos os Pets".
+
 Funcionalidade:
 Normal é completa; Micro é quase completa com limite; Nano concentra-se em um
 pet móvel; Pico concentra-se em um pet fixo.
+
+AUXILIAR OPCIONAL - TODOS OS PETS
+
+AdicionarTodosOsPets.exe é opcional e não é instalador. Ele deve ficar na mesma
+pasta da edição enquanto roda. Normal já contém o arquivo ao lado de
+DesktopPets.exe. Para Micro, Nano ou Pico, copie o auxiliar da pasta "Auxiliar
+opcional - Todos os Pets" para a mesma pasta da edição escolhida.
+
+O auxiliar lê .codex\pets quando essa pasta existe, mas não modifica essa pasta
+e não altera o Códex. Ele também não substitui pets já existentes no destino:
+IDs repetidos são ignorados. Depois da importação, você pode apagar o auxiliar
+sem remover os pets que foram copiados para a pasta pets.
 
 MEDIÇÕES
 

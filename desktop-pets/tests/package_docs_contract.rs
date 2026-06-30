@@ -41,3 +41,29 @@ fn readme_states_that_packages_are_autonomous_not_installers() {
         assert!(text.contains(edition), "missing {edition}");
     }
 }
+
+#[test]
+fn docs_explain_optional_all_pets_helper() {
+    let readme = fs::read_to_string(assets().join("LEIA-ME.txt")).expect("readme");
+    let differences =
+        fs::read_to_string(assets().join("DIFERENCAS-ENTRE-EDICOES.txt")).expect("differences");
+    let helper = fs::read_to_string(assets().join("LEIA-ME-AUXILIAR.txt")).expect("helper docs");
+    let combined = format!("{readme}\n{differences}\n{helper}").to_lowercase();
+
+    for required in [
+        "adicionartodosospets.exe",
+        "opcional",
+        "mesma pasta",
+        ".codex\\pets",
+        "não modifica",
+        "não substitui",
+        "pode apagar",
+        "normal já contém",
+        "auxiliar opcional - todos os pets",
+    ] {
+        assert!(
+            combined.contains(required),
+            "missing helper doc phrase: {required}"
+        );
+    }
+}
