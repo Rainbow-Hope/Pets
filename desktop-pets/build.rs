@@ -112,9 +112,7 @@ fn is_safe_relative_path(path: &str) -> bool {
 }
 
 fn render_catalog(entries: &[PetEntry]) -> String {
-    let mut output = String::from(
-        "static EMBEDDED_PETS: &[EmbeddedPet] = &[\n",
-    );
+    let mut output = String::from("static EMBEDDED_PETS: &[EmbeddedPet] = &[\n");
     for entry in entries {
         output.push_str("    EmbeddedPet {\n");
         output.push_str(&format!("        id: {:?},\n", entry.id));
@@ -131,8 +129,6 @@ fn render_catalog(entries: &[PetEntry]) -> String {
         output.push_str("    },\n");
     }
     output.push_str("];\n\n");
-    output.push_str(
-        "pub fn embedded_pets() -> &'static [EmbeddedPet] {\n    EMBEDDED_PETS\n}\n",
-    );
+    output.push_str("pub fn embedded_pets() -> &'static [EmbeddedPet] {\n    EMBEDDED_PETS\n}\n");
     output
 }

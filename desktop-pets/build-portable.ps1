@@ -83,6 +83,7 @@ New-Item -ItemType Directory -Path $OutputRoot | Out-Null
 
 $Readme = Join-Path $ProjectRoot 'package-assets\LEIA-ME.txt'
 $Differences = Join-Path $ProjectRoot 'package-assets\DIFERENCAS-ENTRE-EDICOES.txt'
+$HelperReadme = Join-Path $ProjectRoot 'package-assets\LEIA-ME-AUXILIAR.txt'
 $RainbowSource = Join-Path $RepositoryRoot 'pets\rainbow-hope'
 $NormalAtlas = Join-Path $RainbowSource 'spritesheet.webp'
 $MicroAtlas = Join-Path $ProjectRoot 'package-assets\light-atlases\micro.webp'
@@ -92,6 +93,7 @@ $PicoAtlas = Join-Path $ProjectRoot 'package-assets\light-atlases\pico.webp'
 foreach ($Required in @(
     $Readme,
     $Differences,
+    $HelperReadme,
     (Join-Path $RainbowSource 'pet.json'),
     $NormalAtlas,
     $MicroAtlas,
@@ -149,6 +151,18 @@ foreach ($Package in $Packages) {
     Copy-Item -LiteralPath $Package.Atlas -Destination (Join-Path $PetRoot 'spritesheet.webp')
     Set-Content -LiteralPath (Join-Path $PackageRoot 'config.json') -Value $DefaultConfig -Encoding utf8
 }
+
+$HelperExecutable = Join-Path $env:CARGO_TARGET_DIR 'release\AdicionarTodosOsPets.exe'
+if (-not (Test-Path -LiteralPath $HelperExecutable -PathType Leaf)) {
+    throw "Executável do auxiliar ausente: $HelperExecutable"
+}
+
+Copy-Item -LiteralPath $HelperExecutable -Destination (Join-Path $OutputRoot 'Normal\AdicionarTodosOsPets.exe')
+
+$OptionalHelperRoot = Join-Path $OutputRoot 'Leves\Auxiliar opcional - Todos os Pets'
+New-Item -ItemType Directory -Path $OptionalHelperRoot -Force | Out-Null
+Copy-Item -LiteralPath $HelperExecutable -Destination (Join-Path $OptionalHelperRoot 'AdicionarTodosOsPets.exe')
+Copy-Item -LiteralPath $HelperReadme -Destination (Join-Path $OptionalHelperRoot 'LEIA-ME-AUXILIAR.txt')
 
 if (-not $SkipChecks) {
     Invoke-Cargo fmt --manifest-path $Manifest --check

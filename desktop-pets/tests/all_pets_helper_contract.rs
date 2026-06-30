@@ -1,6 +1,6 @@
 use desktop_pets::all_pets_helper::{
-    detect_install_target, install_all_pets, scan_codex_pet_sources, EmbeddedPetSource,
-    HelperError, InstallReport,
+    EmbeddedPetSource, HelperError, InstallReport, detect_install_target, install_all_pets,
+    scan_codex_pet_sources,
 };
 use desktop_pets::embedded_pets::embedded_pets;
 use serde_json::Value;
@@ -29,7 +29,10 @@ fn collect_pet_ids(directory: &Path, ids: &mut BTreeSet<String>) {
         let text = fs::read_to_string(&manifest).expect("manifest text");
         let json: Value = serde_json::from_str(&text).expect("manifest json");
         let id = json["id"].as_str().expect("manifest id");
-        assert!(ids.insert(id.to_string()), "duplicate repository pet id {id}");
+        assert!(
+            ids.insert(id.to_string()),
+            "duplicate repository pet id {id}"
+        );
         return;
     }
 
@@ -188,21 +191,27 @@ fn install_all_pets_merges_embedded_and_codex_without_overwriting_existing_ids()
             destination: target.pets_dir.clone(),
         }
     );
-    assert!(target
-        .pets_dir
-        .join("rainbow-hope")
-        .join("pet.json")
-        .is_file());
-    assert!(target
-        .pets_dir
-        .join("zuko-chibi")
-        .join("pet.json")
-        .is_file());
-    assert!(target
-        .pets_dir
-        .join("codex-only-test")
-        .join("pet.json")
-        .is_file());
+    assert!(
+        target
+            .pets_dir
+            .join("rainbow-hope")
+            .join("pet.json")
+            .is_file()
+    );
+    assert!(
+        target
+            .pets_dir
+            .join("zuko-chibi")
+            .join("pet.json")
+            .is_file()
+    );
+    assert!(
+        target
+            .pets_dir
+            .join("codex-only-test")
+            .join("pet.json")
+            .is_file()
+    );
     assert!(codex_package.join("pet.json").is_file());
 }
 

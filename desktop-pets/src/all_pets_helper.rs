@@ -154,8 +154,8 @@ fn import_embedded_pet(
 ) -> Result<ImportOutcome, HelperError> {
     let staging = target.pets_dir.join(format!(".helper-{}", Uuid::new_v4()));
     let package = staging.join("package");
-    let result = write_embedded_package(&package, pet)
-        .map(|()| import_directory_source(library, &package));
+    let result =
+        write_embedded_package(&package, pet).map(|()| import_directory_source(library, &package));
 
     if staging.exists() {
         let _ = fs::remove_dir_all(&staging);

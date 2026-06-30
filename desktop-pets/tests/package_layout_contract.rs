@@ -37,4 +37,36 @@ fn all_four_portable_packages_have_executable_config_docs_and_rainbow_hope() {
 
     assert!(output.join("LEIA-ME.txt").is_file());
     assert!(output.join("DIFERENCAS-ENTRE-EDICOES.txt").is_file());
+    assert!(
+        output
+            .join("Normal")
+            .join("AdicionarTodosOsPets.exe")
+            .is_file(),
+        "Normal must include the optional all-pets helper"
+    );
+    assert!(
+        output
+            .join("Leves")
+            .join("Auxiliar opcional - Todos os Pets")
+            .join("AdicionarTodosOsPets.exe")
+            .is_file(),
+        "light editions must have one separately downloadable helper"
+    );
+    assert!(
+        output
+            .join("Leves")
+            .join("Auxiliar opcional - Todos os Pets")
+            .join("LEIA-ME-AUXILIAR.txt")
+            .is_file(),
+        "optional helper folder must include its own instructions"
+    );
+    for relative in ["Leves/Micro", "Leves/Nano", "Leves/Pico"] {
+        assert!(
+            !output
+                .join(relative)
+                .join("AdicionarTodosOsPets.exe")
+                .exists(),
+            "light packages stay small by not bundling the helper directly: {relative}"
+        );
+    }
 }

@@ -25,6 +25,10 @@ path = "src/bin/nano.rs"
 name = "DesktopPetsPico"
 path = "src/bin/pico.rs"
 
+[[bin]]
+name = "AdicionarTodosOsPets"
+path = "src/bin/add_all_pets.rs"
+
 [dependencies]
 image = { version = "0.25.10", default-features = false, features = ["webp"] }
 serde = { version = "1.0.228", features = ["derive"] }

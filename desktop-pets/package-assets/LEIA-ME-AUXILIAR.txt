@@ -1,0 +1,7 @@
+AUXILIAR OPCIONAL — TODOS OS PETS
+
+AdicionarTodosOsPets.exe é um auxiliar opcional e portátil.
+Coloque-o na mesma pasta da edição Desktop Pets escolhida e execute.
+
+Ele adiciona pets à pasta pets da edição atual.
+Não é instalador do Desktop Pets.
