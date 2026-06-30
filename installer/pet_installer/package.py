@@ -125,17 +125,12 @@ def _safe_relative_path(value: str, field: str) -> str:
     return "/".join(parts)
 
 
-def validate_pet_zip(path: str | Path) -> PetPackage:
-    archive_path = Path(path)
-    if not archive_path.is_file():
-        raise PackageError(f"Arquivo ZIP nao encontrado: {archive_path}")
-    try:
-        with zipfile.ZipFile(archive_path, "r") as archive:
-            root_name, members = _validated_members(archive)
-            manifest = _read_manifest(archive, root_name, members)
-    except zipfile.BadZipFile as exc:
-        raise PackageError("O arquivo selecionado nao e um ZIP valido.") from exc
-
+def _package_from_open_archive(
+    archive: zipfile.ZipFile,
+    archive_path: Path,
+) -> tuple[PetPackage, dict[str, zipfile.ZipInfo]]:
+    root_name, members = _validated_members(archive)
+    manifest = _read_manifest(archive, root_name, members)
     pet_id = _required_text(manifest, "id")
     if not PET_ID_PATTERN.fullmatch(pet_id):
         raise PackageError("O ID do pet e invalido.")
@@ -152,14 +147,29 @@ def validate_pet_zip(path: str | Path) -> PetPackage:
         name.removeprefix(f"{root_name}/"): info.file_size
         for name, info in members.items()
     }
-    return PetPackage(
-        archive_path=archive_path.resolve(),
-        root_name=root_name,
-        pet_id=pet_id,
-        display_name=display_name,
-        spritesheet_path=spritesheet_path,
-        files=MappingProxyType(relative_files),
+    return (
+        PetPackage(
+            archive_path=archive_path.resolve(),
+            root_name=root_name,
+            pet_id=pet_id,
+            display_name=display_name,
+            spritesheet_path=spritesheet_path,
+            files=MappingProxyType(relative_files),
+        ),
+        members,
     )
+
+
+def validate_pet_zip(path: str | Path) -> PetPackage:
+    archive_path = Path(path)
+    if not archive_path.is_file():
+        raise PackageError(f"Arquivo ZIP nao encontrado: {archive_path}")
+    try:
+        with zipfile.ZipFile(archive_path, "r") as archive:
+            package, _ = _package_from_open_archive(archive, archive_path)
+            return package
+    except zipfile.BadZipFile as exc:
+        raise PackageError("O arquivo selecionado nao e um ZIP valido.") from exc
 
 
 def extract_package(package: PetPackage, destination: Path) -> None:
@@ -170,7 +180,29 @@ def extract_package(package: PetPackage, destination: Path) -> None:
 
     try:
         with zipfile.ZipFile(package.archive_path, "r") as archive:
-            _, members = _validated_members(archive)
+            current, members = _package_from_open_archive(
+                archive,
+                package.archive_path,
+            )
+            expected_identity = (
+                package.root_name,
+                package.pet_id,
+                package.display_name,
+                package.spritesheet_path,
+                dict(package.files),
+            )
+            current_identity = (
+                current.root_name,
+                current.pet_id,
+                current.display_name,
+                current.spritesheet_path,
+                dict(current.files),
+            )
+            if current_identity != expected_identity:
+                raise PackageError(
+                    "O pacote foi alterado depois da validacao. "
+                    "Selecione o ZIP novamente."
+                )
             for relative_name in package.files:
                 member_name = f"{package.root_name}/{relative_name}"
                 info = members.get(member_name)

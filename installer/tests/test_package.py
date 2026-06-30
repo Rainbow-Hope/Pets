@@ -53,6 +53,17 @@ class ValidatePetZipTests(unittest.TestCase):
         self.assertTrue((destination / "pet.json").is_file())
         self.assertTrue((destination / "spritesheet.webp").is_file())
 
+    def test_rejects_archive_replaced_after_validation(self) -> None:
+        zip_path = write_pet_zip(self.root / "rainbow-hope.zip")
+        package = validate_pet_zip(zip_path)
+        write_pet_zip(
+            zip_path,
+            display_name="Rainbow Nope",
+        )
+
+        with self.assertRaisesRegex(PackageError, "alterado"):
+            extract_package(package, self.root / "staging")
+
     def test_rejects_missing_pet_json(self) -> None:
         zip_path = write_zip(
             self.root / "missing-json.zip",
