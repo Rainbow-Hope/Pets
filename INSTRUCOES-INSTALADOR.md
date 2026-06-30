@@ -22,17 +22,59 @@ continuar, use **Mais informações** e **Executar assim mesmo**.
 
 ## Instalar um pet
 
-1. Baixe o ZIP do pet desejado, sem extraí-lo.
-2. No instalador, clique em **Selecionar ZIP**.
-3. Escolha o pacote.
-4. Confira o nome, o ID e o destino.
-5. Clique em **Instalar pet**.
+1. Volte para a lista de pets no [README](README.md).
+2. Baixe o ZIP individual do pet desejado, sem extraí-lo.
+   Exemplo: `rainbow-hope.zip`, `kogure-chibi.zip` ou `downloads/fusões/sardonyx.zip`.
+3. No instalador, clique em **Selecionar ZIP**.
+4. Escolha o pacote ZIP do pet.
+5. Confira o nome, o ID e o destino.
+6. Clique em **Instalar pet**.
+7. Reinicie o Codex se ele já estiver aberto.
 
-O destino é:
+O instalador copia o pet para:
 
 ```text
 %USERPROFILE%\.codex\pets\<id-do-pet>
 ```
+
+Dentro dessa pasta devem ficar:
+
+```text
+pet.json
+spritesheet.webp
+```
+
+## Usar as opções do programa
+
+Fluxo normal:
+
+1. Clique em **Selecionar ZIP**.
+2. Escolha um pacote de pet baixado deste repositório.
+3. Se o pet ainda não existir no computador, clique em **Instalar pet**.
+
+Quando o pet já existe:
+
+1. Use **Verificar se é idêntico** se quiser comparar o tamanho ocupado em bits.
+2. Se o programa informar que é idêntico, o pet já está presente.
+3. Se o programa informar que é distinto, escolha **Atualizar** para substituir ou **Instalar como cópia** para manter os dois.
+4. Use **Instalar como cópia** quando quiser dar outro nome ao pet baixado.
+
+O programa não altera outros pets fora da pasta de destino exibida na tela.
+
+## Caminho antigo manual
+
+Se preferir não usar o instalador:
+
+1. Baixe o ZIP do pet desejado.
+2. Extraia o conteúdo para `%USERPROFILE%\.codex\pets`.
+3. Confira se o caminho final ficou como:
+
+```text
+%USERPROFILE%\.codex\pets\<id-do-pet>\pet.json
+%USERPROFILE%\.codex\pets\<id-do-pet>\spritesheet.webp
+```
+
+4. Reinicie o Codex se ele já estiver aberto.
 
 ## Quando o pet já existe
 

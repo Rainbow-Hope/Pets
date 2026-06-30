@@ -3,6 +3,7 @@
 from pathlib import Path
 
 installer_dir = Path(SPECPATH)
+icon_path = installer_dir / "assets" / "Coíro.ico"
 
 a = Analysis(
     [str(installer_dir / "run_installer.py")],
@@ -36,4 +37,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=str(icon_path),
 )
