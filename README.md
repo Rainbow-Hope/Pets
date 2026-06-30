@@ -36,7 +36,18 @@ os pets por uma interface portátil no Windows.
 - [Instalação com o instalador para Windows](INSTRUCOES-INSTALADOR.md)
 - [Índice de instruções](INSTRUCOES.md)
 
-Resumo rapido:
+Resumo rapido com o instalador:
+
+1. Baixe `Instalador-Pets-Windows.zip`.
+2. Extraia o ZIP e abra `Instalador-Pets.exe`.
+3. Baixe o `.zip` do pet desejado na tabela acima, sem extrair.
+4. No instalador, clique em `Selecionar ZIP`, escolha o pacote do pet e clique em `Instalar pet`.
+5. Reinicie o Codex se ele ja estiver aberto.
+
+Python nao e necessario para usar o instalador pronto. Veja o passo a passo
+completo em [INSTRUCOES-INSTALADOR.md](INSTRUCOES-INSTALADOR.md).
+
+Resumo rapido manual:
 
 1. Baixe o `.zip` do pet desejado na tabela acima.
 2. Extraia o `.zip` dentro da pasta de pets do Codex.
