@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "startup": "none",
+  "startupShortcutName": "DesktopPets.lnk",
+  "instances": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "petId": "rainbow-hope",
+      "sizePercent": 100,
+      "position": { "x": 80, "y": 80 },
+      "movement": "fixed",
+      "semiFixed": { "a": null, "b": null }
+    }
+  ],
+  "lastActive": "00000000-0000-0000-0000-000000000001"
+}

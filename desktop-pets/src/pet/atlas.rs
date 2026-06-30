@@ -9,6 +9,31 @@ pub const CELL_HEIGHT: u32 = 208;
 pub const ATLAS_WIDTH: u32 = CELL_WIDTH * 8;
 pub const ATLAS_HEIGHT: u32 = CELL_HEIGHT * 9;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct AtlasGeometry {
+    pub cell_width: u32,
+    pub cell_height: u32,
+}
+
+impl AtlasGeometry {
+    pub fn from_dimensions(width: u32, height: u32) -> Option<Self> {
+        let cell_width = width.checked_div(8)?;
+        let cell_height = height.checked_div(9)?;
+        let approved = matches!(
+            (cell_width, cell_height),
+            (192, 208) | (144, 156) | (96, 104) | (48, 52)
+        );
+        if approved && cell_width * 8 == width && cell_height * 9 == height {
+            Some(Self {
+                cell_width,
+                cell_height,
+            })
+        } else {
+            None
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum PetState {
     Idle,
@@ -87,9 +112,9 @@ impl Atlas {
         let bytes = fs::read(path)?;
         let decoded = image::load_from_memory_with_format(&bytes, image::ImageFormat::WebP)?;
         let (width, height) = decoded.dimensions();
-        if (width, height) != (ATLAS_WIDTH, ATLAS_HEIGHT) {
+        let Some(geometry) = AtlasGeometry::from_dimensions(width, height) else {
             return Err(PetError::InvalidAtlasSize { width, height });
-        }
+        };
         if !decoded.color().has_alpha() {
             return Err(PetError::MissingAlpha);
         }
@@ -101,13 +126,14 @@ impl Atlas {
             for column in 0..state.frame_count() {
                 let view = rgba
                     .view(
-                        column as u32 * CELL_WIDTH,
-                        row as u32 * CELL_HEIGHT,
-                        CELL_WIDTH,
-                        CELL_HEIGHT,
+                        column as u32 * geometry.cell_width,
+                        row as u32 * geometry.cell_height,
+                        geometry.cell_width,
+                        geometry.cell_height,
                     )
                     .to_image();
-                let mut bgra = Vec::with_capacity((CELL_WIDTH * CELL_HEIGHT * 4) as usize);
+                let mut bgra =
+                    Vec::with_capacity((geometry.cell_width * geometry.cell_height * 4) as usize);
                 for pixel in view.pixels() {
                     let [red, green, blue, opacity] = pixel.0;
                     let premultiply =
@@ -120,8 +146,8 @@ impl Atlas {
                     ]);
                 }
                 rows[row].push(Arc::new(Frame {
-                    width: CELL_WIDTH,
-                    height: CELL_HEIGHT,
+                    width: geometry.cell_width,
+                    height: geometry.cell_height,
                     premultiplied_bgra: bgra,
                 }));
             }

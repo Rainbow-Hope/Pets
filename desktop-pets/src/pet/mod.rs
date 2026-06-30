@@ -1,6 +1,8 @@
 mod atlas;
 
-pub use atlas::{ATLAS_HEIGHT, ATLAS_WIDTH, Atlas, CELL_HEIGHT, CELL_WIDTH, Frame, PetState};
+pub use atlas::{
+    ATLAS_HEIGHT, ATLAS_WIDTH, Atlas, AtlasGeometry, CELL_HEIGHT, CELL_WIDTH, Frame, PetState,
+};
 
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -75,7 +77,7 @@ pub enum PetError {
     UnsafeSpritesheetPath(PathBuf),
     #[error("could not decode pet image: {0}")]
     Image(#[from] image::ImageError),
-    #[error("atlas must be 1536x1872 pixels, got {width}x{height}")]
+    #[error("atlas has unsupported dimensions {width}x{height}")]
     InvalidAtlasSize { width: u32, height: u32 },
     #[error("atlas does not contain an alpha channel")]
     MissingAlpha,

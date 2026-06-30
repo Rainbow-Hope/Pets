@@ -1,5 +1,6 @@
 use desktop_pets::pet::{
-    ATLAS_HEIGHT, ATLAS_WIDTH, Atlas, CELL_HEIGHT, CELL_WIDTH, PetError, PetManifest, PetState,
+    ATLAS_HEIGHT, ATLAS_WIDTH, Atlas, AtlasGeometry, CELL_HEIGHT, CELL_WIDTH, PetError, PetManifest,
+    PetState,
 };
 use std::path::Path;
 
@@ -23,6 +24,39 @@ fn codex_atlas_geometry_and_frame_counts_are_fixed() {
     for (state, row, frames) in expected {
         assert_eq!(state.row(), row);
         assert_eq!(state.frame_count(), frames);
+    }
+}
+
+#[test]
+fn light_editions_accept_only_approved_proportional_atlas_sizes() {
+    let approved = [
+        (1536, 1872, 192, 208),
+        (1152, 1404, 144, 156),
+        (768, 936, 96, 104),
+        (384, 468, 48, 52),
+    ];
+    for (width, height, cell_width, cell_height) in approved {
+        let geometry = AtlasGeometry::from_dimensions(width, height).expect("approved geometry");
+        assert_eq!((geometry.cell_width, geometry.cell_height), (cell_width, cell_height));
+    }
+
+    assert!(AtlasGeometry::from_dimensions(1000, 1000).is_none());
+    assert!(AtlasGeometry::from_dimensions(192, 208).is_none());
+}
+
+#[test]
+fn packaged_light_rainbow_hope_atlases_decode_with_expected_cells() {
+    let assets = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("package-assets")
+        .join("light-atlases");
+    for (name, cell_width, cell_height) in [
+        ("micro.webp", 144, 156),
+        ("nano.webp", 96, 104),
+        ("pico.webp", 48, 52),
+    ] {
+        let atlas = Atlas::load(&assets.join(name)).expect("light atlas");
+        let frame = atlas.frame(PetState::Idle, 0);
+        assert_eq!((frame.width, frame.height), (cell_width, cell_height));
     }
 }
 

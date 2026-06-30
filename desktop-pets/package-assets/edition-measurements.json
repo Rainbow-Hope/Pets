@@ -1,0 +1,42 @@
+{
+  "measured_at": "2026-06-30T04:53:08.7713291-03:00",
+  "machine": "TO-RUSH",
+  "windows": "Microsoft Windows NT 10.0.19045.0",
+  "logical_processors": 4,
+  "warmup_seconds": 6,
+  "sample_seconds": 8,
+  "editions": [
+    {
+      "edition": "Normal",
+      "executable_bytes": 574464,
+      "package_bytes": 2224848,
+      "working_set_bytes": 16420864,
+      "normalized_idle_cpu_percent": 0.1465,
+      "main_window_handle": 1181148
+    },
+    {
+      "edition": "Micro",
+      "executable_bytes": 574464,
+      "package_bytes": 921054,
+      "working_set_bytes": 13004800,
+      "normalized_idle_cpu_percent": 0.0,
+      "main_window_handle": 6882124
+    },
+    {
+      "edition": "Nano",
+      "executable_bytes": 574464,
+      "package_bytes": 763190,
+      "working_set_bytes": 10141696,
+      "normalized_idle_cpu_percent": 0.0,
+      "main_window_handle": 6947660
+    },
+    {
+      "edition": "Pico",
+      "executable_bytes": 574464,
+      "package_bytes": 649338,
+      "working_set_bytes": 8372224,
+      "normalized_idle_cpu_percent": 0.0,
+      "main_window_handle": 394800
+    }
+  ]
+}

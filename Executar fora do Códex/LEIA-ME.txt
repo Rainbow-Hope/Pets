@@ -1,0 +1,53 @@
+DESKTOP PETS — EXECUÇÃO PORTÁTIL
+
+Este programa não é instalador. Ele não instala serviços, não altera o
+Registro do Windows e não precisa do Códex, Rust, Python, WebView ou outro
+programa auxiliar.
+
+COMO ABRIR
+
+1. Mantenha juntos o arquivo .exe, o config.json e a pasta pets.
+2. Dê dois cliques no arquivo .exe da edição escolhida.
+3. O Rainbow Hope aparecerá sobre a área de trabalho.
+4. Clique com o botão direito no pet para abrir os controles disponíveis.
+
+O programa funciona sem internet e não exige acesso de administrador. A pasta
+completa pode ser copiada para outro diretório, pendrive ou computador com
+Windows 10/11 de 64 bits. Não mova somente o .exe: config.json e a pasta pets
+fazem parte do aplicativo autossuficiente.
+
+EDIÇÕES
+
+Normal — versão completa, sem limite definido de pets.
+Micro  — versão leve quase completa, limitada a quatro pets.
+Nano   — versão leve com um pet e movimentos automáticos.
+Pico   — versão essencial com um pet fixo e menor frequência de atualização.
+
+CONTROLES
+
+- Arraste com o botão esquerdo para reposicionar.
+- Clique com o botão direito para escolher pet, tamanho e outras funções
+  disponíveis na edição.
+- Use “Fechar este pet” para encerrar.
+
+PETS ADICIONAIS
+
+Normal e Micro importam pacotes ZIP pelo menu.
+Nano e Pico apenas listam pets compatíveis já existentes na pasta pets.
+Cada pet precisa de pet.json e spritesheet.webp no formato de atlas do Códex.
+
+ARQUIVOS LOCAIS
+
+config.json guarda posição, tamanho, pet e preferências da própria edição.
+pets contém a biblioteca portátil.
+DIFERENCAS-ENTRE-EDICOES.txt explica todas as diferenças.
+
+PROBLEMAS
+
+Se o Rainbow Hope não abrir, confirme a existência de:
+
+pets\rainbow-hope\pet.json
+pets\rainbow-hope\spritesheet.webp
+
+Se o Windows exibir um aviso de arquivo baixado, confira se o arquivo veio do
+repositório oficial Rainbow-Hope/Pets antes de executá-lo.
