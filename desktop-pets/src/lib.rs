@@ -1,6 +1,7 @@
 #![cfg_attr(not(test), deny(clippy::unwrap_used))]
 
 pub mod behavior;
+pub mod all_pets_helper;
 pub mod config;
 pub mod edition;
 pub mod embedded_pets;
