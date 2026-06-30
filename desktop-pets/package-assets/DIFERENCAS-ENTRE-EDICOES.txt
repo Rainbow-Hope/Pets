@@ -1,0 +1,99 @@
+Normal > Micro > Nano > Pico
+
+Normal é a maior e mais completa. Micro preserva quase tudo com limites e
+agendamento econômico. Nano mantém um pet com movimento. Pico mantém somente o
+essencial e apresenta o menor consumo esperado.
+
+ÍNDICE
+
+1. Comparação rápida
+2. Normal
+3. Micro
+4. Nano
+5. Pico
+6. Diferenças recurso por recurso
+7. Medições
+8. Qual escolher
+
+COMPARAÇÃO RÁPIDA
+
+Recurso                         Normal   Micro   Nano   Pico
+Pets simultâneos                sem limite  4      1      1
+Humor por CPU e memória         sim      sim     sim    sim
+Escolher pet instalado          sim      sim     sim    sim
+Importar ZIP pelo menu          sim      sim     não    não
+Movimento automático            sim      sim     sim    não
+Iniciar/restaurar com Windows   sim      sim     não    não
+Atualizações de animação/s      10       5       5      4
+Intervalo das métricas          2 s      5 s     5 s    8 s
+
+NORMAL — VERSÃO COMPLETA
+
+Indicada para quem deseja todos os recursos. Aceita vários pets independentes,
+importa ZIP, oferece os seis movimentos, pontos semi-fixos A/B, políticas de
+restauração e todos os comandos de fechamento. Abrir novamente o executável
+cria outro pet no coordenador já ativo.
+
+MICRO — LEVE QUASE COMPLETA
+
+Mantém as mesmas categorias principais da Normal, inclusive importação,
+movimentos e restauração. Limita a quatro pets, atualiza a animação cinco vezes
+por segundo e consulta CPU/memória a cada cinco segundos. É indicada quando se
+quer funcionalidade ampla com menor atividade em segundo plano.
+
+NANO — LEVE EQUILIBRADA
+
+Mantém um pet, humor por CPU/memória e todos os movimentos automáticos. Permite
+escolher pets já colocados na biblioteca e mudar tamanho. Não importa ZIP pela
+interface, não cria pets adicionais e não configura inicialização automática.
+Abrir novamente apenas apresenta o pet Nano que já está ativo.
+
+PICO — LEVE ESSENCIAL
+
+Mantém um pet fixo, arrastável, com humor por CPU/memória, ondas e pulos
+ocasionais. Permite escolher pet instalado, mudar tamanho e fechar. Não possui
+movimento autônomo, importação, múltiplas janelas nem restauração automática.
+É a opção para menor atividade de CPU e interface mais simples.
+
+DIFERENÇAS RECURSO POR RECURSO
+
+Memória:
+Todas compartilham o mesmo atlas sem duplicar um segundo buffer completo de
+alfa. Normal e Micro compartilham atlases entre janelas do mesmo pet. Nano e
+Pico mantêm apenas uma janela.
+
+Processamento:
+Normal usa maior fluidez. Micro e Nano reduzem pela metade a frequência de
+animação. Pico atualiza quatro vezes por segundo e mede recursos a cada oito
+segundos.
+
+Armazenamento:
+Cada pacote traz somente seu executável, configuração, documentos e Rainbow
+Hope. Não há instalador, runtime separado ou download durante a primeira
+execução.
+
+Funcionalidade:
+Normal é completa; Micro é quase completa com limite; Nano concentra-se em um
+pet móvel; Pico concentra-se em um pet fixo.
+
+MEDIÇÕES
+
+Os valores finais são registrados somente depois dos quatro builds de
+distribuição, usando a mesma máquina, Rainbow Hope, tamanho e intervalo ocioso.
+Nenhuma porcentagem estimada é apresentada como medição real.
+
+Campos registrados no relatório final:
+- tamanho do executável;
+- tamanho da pasta portátil;
+- memória de trabalho;
+- variação de tempo de CPU durante o intervalo ocioso;
+- data, Windows e método de medição.
+
+QUAL ESCOLHER
+
+Escolha Normal para todos os recursos.
+Escolha Micro para quase todos os recursos com limites mais econômicos.
+Escolha Nano para um pet móvel e uma interface reduzida.
+Escolha Pico para um pet fixo e o menor consumo esperado.
+
+Todas são portáteis, autossuficientes e executadas diretamente pelo .exe.
