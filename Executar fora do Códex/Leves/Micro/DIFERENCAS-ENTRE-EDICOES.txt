@@ -69,9 +69,10 @@ animação. Pico atualiza quatro vezes por segundo e mede recursos a cada oito
 segundos.
 
 Armazenamento:
-Cada pacote traz somente seu executável, configuração, documentos e Rainbow
-Hope. Não há instalador, runtime separado ou download durante a primeira
-execução.
+Cada edição traz seu executável, configuração, documentos e Rainbow Hope. Não
+há instalador, runtime separado ou download durante a primeira execução. A
+Normal também traz AdicionarTodosOsPets.exe por padrão, por isso seu pacote é
+maior; as versões leves mantêm esse auxiliar separado.
 
 O auxiliar AdicionarTodosOsPets.exe altera o armazenamento apenas quando é
 usado: ele copia pets adicionais para a pasta pets da edição escolhida. Normal
@@ -103,20 +104,22 @@ normalizado pelos quatro processadores. Valores 0,0000% ficaram abaixo da
 resolução observável nesse intervalo curto.
 
 Edição   EXE       Pacote    Memória   CPU ociosa
-Normal   0,548 MiB 2,122 MiB 15,66 MiB 0,1465%
-Micro    0,548 MiB 0,878 MiB 12,40 MiB 0,0000%
-Nano     0,548 MiB 0,728 MiB  9,67 MiB 0,0000%
-Pico     0,548 MiB 0,619 MiB  7,98 MiB 0,0000%
+Normal   0,548 MiB 28,472 MiB 15,68 MiB 0,0977%
+Micro    0,548 MiB  0,881 MiB 11,88 MiB 0,0000%
+Nano     0,548 MiB  0,731 MiB  8,98 MiB 0,1465%
+Pico     0,548 MiB  0,622 MiB  7,45 MiB 0,0977%
 
 Redução medida em relação à Normal:
 
-Micro — pacote 58,6% menor e memória de trabalho 20,8% menor.
-Nano  — pacote 65,7% menor e memória de trabalho 38,2% menor.
-Pico  — pacote 70,8% menor e memória de trabalho 49,0% menor.
+Micro — pacote 96,9% menor e memória de trabalho 24,3% menor.
+Nano  — pacote 97,4% menor e memória de trabalho 42,8% menor.
+Pico  — pacote 97,8% menor e memória de trabalho 52,5% menor.
 
-O executável tem o mesmo tamanho porque as quatro edições compartilham o núcleo
-nativo. A redução de armazenamento do pacote vem principalmente dos atlas
-Rainbow Hope proporcionais: 75% na Micro, 50% na Nano e 25% na Pico.
+O executável principal tem o mesmo tamanho porque as quatro edições compartilham
+o núcleo nativo. A Normal aparece muito maior porque inclui o auxiliar
+AdicionarTodosOsPets.exe, que embute todos os pets do catálogo atual. Nas
+versões leves, a redução de armazenamento do pacote vem do auxiliar separado e
+dos atlas Rainbow Hope proporcionais: 75% na Micro, 50% na Nano e 25% na Pico.
 
 Os dados completos e em bytes estão em edition-measurements.json no código-fonte.
 

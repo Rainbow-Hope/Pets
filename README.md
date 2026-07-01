@@ -27,6 +27,55 @@ Repositorio publico dos pets to-RusH para baixar e instalar individualmente no C
 | Quartzo Fumê | ![Quartzo Fumê](pets/fusões/quartzo-fume/preview.gif) | [quartzo-fume.zip](downloads/fusões/quartzo-fume.zip) | [pasta](pets/fusões/quartzo-fume/) |
 | Sardonyx | ![Sardonyx](pets/fusões/sardonyx/preview.gif) | [sardonyx.zip](downloads/fusões/sardonyx.zip) | [pasta](pets/fusões/sardonyx/) |
 
+## Executáveis autônomos para rodar fora do Códex
+
+Além dos pets para o Códex, este repositório também contém executáveis
+portáteis para Windows em [Executar fora do Códex](<Executar fora do Códex/>).
+Eles não são instaladores: é para manter a pasta da edição junta e abrir o
+`.exe` diretamente. Não precisa instalar Rust, Python, Códex, WebView, serviço
+ou runtime separado.
+
+O pet padrão inicial de todas as edições é Rainbow Hope.
+
+| Tipo | Pasta | Executável | Resumo |
+| --- | --- | --- | --- |
+| Normal | [Normal](<Executar fora do Códex/Normal/>) | `DesktopPets.exe` | versão completa, com vários pets, importação ZIP pelo menu e o auxiliar `AdicionarTodosOsPets.exe` já incluído |
+| Leve / Micro | [Micro](<Executar fora do Códex/Leves/Micro/>) | `DesktopPetsMicro.exe` | quase completa, limitada a 4 pets, com menor frequência de atualização |
+| Leve / Nano | [Nano](<Executar fora do Códex/Leves/Nano/>) | `DesktopPetsNano.exe` | equilibrada, 1 pet com movimento automático e interface menor |
+| Leve / Pico | [Pico](<Executar fora do Códex/Leves/Pico/>) | `DesktopPetsPico.exe` | essencial, 1 pet fixo, menor atividade esperada |
+
+Arquivos que devem ficar juntos em cada pasta:
+
+- o executável da edição;
+- `config.json`;
+- a pasta `pets`;
+- `LEIA-ME.txt`;
+- `DIFERENCAS-ENTRE-EDICOES.txt`.
+
+Não mova somente o `.exe`, porque a edição usa os arquivos da própria pasta.
+Para fechar, mudar tamanho e escolher pet, use o menu do pet com clique direito.
+
+### Auxiliar opcional para adicionar todos os pets
+
+`AdicionarTodosOsPets.exe` é um programa auxiliar opcional e autônomo. Ele
+adiciona à edição atual todos os pets embutidos no próprio auxiliar e também os
+pets válidos encontrados em `%USERPROFILE%\.codex\pets`, quando essa pasta
+existir.
+
+- A versão Normal já contém o auxiliar na mesma pasta.
+- Para Micro, Nano ou Pico, copie o auxiliar de
+  [Auxiliar opcional - Todos os Pets](<Executar fora do Códex/Leves/Auxiliar opcional - Todos os Pets/>)
+  para a mesma pasta da edição leve escolhida antes de executar.
+- O auxiliar não modifica `.codex\pets`, não altera o Códex e não substitui
+  pets que já existem na pasta de destino.
+- Depois de importar os pets, o auxiliar pode ser apagado sem remover os pets
+  copiados para a pasta `pets`.
+
+Veja também:
+
+- [Instruções das edições autônomas](<Executar fora do Códex/LEIA-ME.txt>)
+- [Diferenças entre Normal, Micro, Nano e Pico](<Executar fora do Códex/DIFERENCAS-ENTRE-EDICOES.txt>)
+
 ## Como instalar
 
 Baixe o [Instalador-Pets-Windows.zip](Instalador-Pets-Windows.zip) para instalar
@@ -66,6 +115,8 @@ No Windows, a pasta final deve ficar assim:
 - `pets/fusões/`: arquivos individuais dos pets de fusao.
 - `downloads/`: pacotes `.zip` prontos para download e instalacao.
 - `downloads/fusões/`: pacotes `.zip` das fusoes.
+- `Executar fora do Códex/`: edições autônomas para Windows que rodam por
+  clique direto, sem instalação.
 - `installer/`: código-fonte, testes e build do instalador portátil.
 - `Instalador-Pets-Windows.zip`: executável portátil para Windows.
 - `INSTRUCOES.md`: índice dos métodos de instalação.
